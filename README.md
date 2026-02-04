@@ -1,6 +1,19 @@
 # Vibe Coder Portfolio
 
-A modern, responsive portfolio site that pulls your GitHub repositories (OthmanEshanouq) into the Projects section. Built with HTML, Tailwind CSS (CDN), and minimal JavaScript.
+A modern, responsive portfolio site that pulls your GitHub repositories (OthmanEshanouq) into the Projects section.
+
+**Important:** The main site (with Balatro) is a **Vite + React** app. **Do not** open `index.html` by double‑clicking it — the app will not run. You must use the dev server (see below).
+
+**Two ways to run:**
+
+1. **React + Balatro (OGL) hero** — WebGL shader background in the hero section:
+   ```bash
+   npm install
+   npm run dev
+   ```
+   Then **open the URL shown in the terminal** (e.g. `http://localhost:5173`). Do not open `index.html` directly in the browser. Build for production: `npm run build` (output in `dist/`).
+
+2. **Vanilla (no build)** — Open `index.vanilla.html` in a browser or serve the folder (e.g. `npx serve .`) and open the vanilla version. Uses `index.vanilla.html`, `css/style.css`, and `js/main.js` (no Balatro).
 
 ## Project structure
 
