@@ -1,0 +1,117 @@
+/* ========== Custom styles for portfolio ========== */
+
+/* Smooth scrolling and prevent horizontal overflow on all viewports */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  overflow-x: hidden;
+  min-width: 280px;
+}
+
+/* Responsive: images never overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Nav link active state (optional: highlight current section) */
+.nav-link.active {
+  color: rgb(79 70 229);
+  font-weight: 600;
+}
+
+/* Project card: responsive (min-width 0 in grid), hover lift */
+.project-card {
+  min-width: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.project-card h3,
+.project-card p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Project card thumbnail: fixed aspect ratio, logos fit inside */
+.project-thumb-wrap {
+  aspect-ratio: 16 / 10;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+.project-thumb-wrap a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.project-thumb-img {
+  max-height: 160px;
+  object-fit: contain;
+}
+
+.project-thumb-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 1rem;
+}
+@media (min-width: 640px) {
+  .project-thumb-fallback {
+    font-size: 1.125rem;
+  }
+}
+
+/* Nav: logo and touch-friendly toggle (min 44px for mobile) */
+nav img[alt="Othman Eshanouq"] {
+  object-fit: cover;
+  object-position: center;
+  flex-shrink: 0;
+}
+#nav-toggle {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* About Me profile photo: centered in circle frame */
+#about img[alt="Othman Eshanouq"] {
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Skills section: responsive grid — 1 col mobile, 2 sm, 3 md+ (3×2 on desktop) */
+#skills .skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 480px) {
+  #skills .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+@media (min-width: 768px) {
+  #skills .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
