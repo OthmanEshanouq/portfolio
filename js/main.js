@@ -54,17 +54,17 @@
   };
   var REPOS_TO_HIDE = ['portfolio', 'JavaScript-Lecture', 'challenge', 'CSS-Tricks', '-HTML-CSS-Part-1', 'HTML-CSS-Part-1', 'Web-Page-Structure-Layout', 'valleys_adventure_event_funnel', 'debugging-and-customization', 'debugging_and_customization', 'magic-toggle', 'magic_toggle'];
 
-  // Display name override (e.g. Event_Funnel -> cycling everywhere)
-  var DISPLAY_NAME_MAP = {
-    'Event_Funnel': 'cycling everywhere'
-  };
-
   // Override thumbnail/logo URL per repo (local assets)
   var THUMBNAIL_OVERRIDE = {
     'restaurant-system': 'assets/logo%20burger%20station.png',
     'halawah_restaurant': "assets/halawah's%20logo.png",
     'Event_Funnel': 'assets/logo(cycling%20everywhere).png',
     'Premium_N-Tech_Fabric': 'assets/logo%20N-Tech.png'
+  };
+
+  // Override display name per repo (e.g. Event_Funnel -> "cycling everywhere")
+  var DISPLAY_NAME_MAP = {
+    'Event_Funnel': 'cycling everywhere'
   };
 
   var grid = document.getElementById('projects-grid');
@@ -102,13 +102,9 @@
     return ordered;
   }
 
-  function getDisplayName(repoName) {
-    return DISPLAY_NAME_MAP[repoName] || repoName.replace(/-/g, ' ').replace(/_/g, ' ');
-  }
-
   function renderProject(repo) {
     var name = repo.name || 'Project';
-    var displayName = getDisplayName(name);
+    var displayName = DISPLAY_NAME_MAP[name] || name.replace(/-/g, ' ').replace(/_/g, ' ');
     var desc = repo.description || 'No description.';
     var repoUrl = repo.html_url || '#';
     var homeUrl = LIVE_URL_MAP[name] || repo.homepage || null;
@@ -116,24 +112,27 @@
     var topics = repo.topics || [];
     var thumbSrc = getThumbnailSrc(name, homeUrl);
     var linkUrl = homeUrl || repoUrl;
+    var isLogoThumb = name === 'Event_Funnel';
+    var thumbWrapClass = 'project-thumb-wrap' + (isLogoThumb ? ' project-thumb-wrap-logo' : '');
+    var thumbImgClass = 'project-thumb-img' + (isLogoThumb ? ' project-thumb-img-logo' : '');
 
     var techBadges = [lang].filter(Boolean).concat(topics.slice(0, 3)).map(function (t) {
-      return '<span class="px-2 py-1 text-xs font-medium rounded bg-gray-600 text-gray-300">' + langToLabel(t) + '</span>';
+      return '<span class="px-2 py-1 text-xs font-medium rounded bg-gray-700 text-gray-300">' + langToLabel(t) + '</span>';
     }).join(' ');
-    if (!techBadges) techBadges = '<span class="px-2 py-1 text-xs font-medium rounded bg-gray-600 text-gray-300">Code</span>';
+    if (!techBadges) techBadges = '<span class="px-2 py-1 text-xs font-medium rounded bg-gray-700 text-gray-300">Code</span>';
 
     var card = document.createElement('div');
-    card.className = 'project-card project-card-motion bg-gray-800 rounded-xl overflow-hidden border border-gray-600' + (name === 'halawah_restaurant' ? ' project-card--halawah' : '');
+    card.className = 'project-card project-card-motion bg-gray-800 rounded-xl overflow-hidden border border-gray-700';
     card.innerHTML =
-      '<div class="project-thumb-wrap">' +
-        '<a href="' + linkUrl + '" target="_blank" rel="noopener" class="block h-full flex items-center justify-center p-4 bg-gray-700">' +
-          '<img src="' + thumbSrc + '" alt="' + displayName + '" class="project-thumb-img max-h-full max-w-full w-auto h-auto object-contain" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
+      '<div class="' + thumbWrapClass + '">' +
+        '<a href="' + linkUrl + '" target="_blank" rel="noopener" class="block h-full w-full bg-gray-700">' +
+          '<img src="' + thumbSrc + '" alt="' + displayName + '" class="' + thumbImgClass + '" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';" />' +
           '<div class="project-thumb-fallback" style="display:none;">' + displayName + '</div>' +
         '</a>' +
       '</div>' +
       '<div class="p-5">' +
         '<h3 class="text-lg font-semibold text-white mb-2">' + displayName + '</h3>' +
-        '<p class="text-gray-300 text-sm mb-4 line-clamp-3">' + desc + '</p>' +
+        '<p class="text-gray-400 text-sm mb-4 line-clamp-3">' + desc + '</p>' +
         '<div class="flex flex-wrap gap-2 mb-4">' + techBadges + '</div>' +
         '<div class="flex gap-3">' +
           (homeUrl ? '<a href="' + homeUrl + '" target="_blank" rel="noopener" class="text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline">Live</a>' : '') +
