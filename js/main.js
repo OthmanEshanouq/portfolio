@@ -64,12 +64,25 @@
 
   // Override display name per repo (e.g. Event_Funnel -> "cycling everywhere")
   var DISPLAY_NAME_MAP = {
+    'restaurant-system': 'Burger Station',
     'Event_Funnel': 'cycling everywhere'
+  };
+
+  // Override description per repo (portfolio-friendly copy)
+  var DESCRIPTION_OVERRIDE = {
+    'restaurant-system': 'Restaurant management system with home page, menu, cart, and checkout. Checkout form submits order data to Google Sheets.',
+    'halawah_restaurant': 'Reservation system for a limited period (20/01/2026–20/02/2026). Open Thu, Fri & Sat for lunch and dinner.'
   };
 
   var grid = document.getElementById('projects-grid');
   var loading = document.getElementById('projects-loading');
   if (!grid) return;
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
 
   function langToLabel(lang) {
     if (!lang) return 'Code';
@@ -105,7 +118,7 @@
   function renderProject(repo) {
     var name = repo.name || 'Project';
     var displayName = DISPLAY_NAME_MAP[name] || name.replace(/-/g, ' ').replace(/_/g, ' ');
-    var desc = repo.description || 'No description.';
+    var desc = DESCRIPTION_OVERRIDE[name] || repo.description || 'No description.';
     var repoUrl = repo.html_url || '#';
     var homeUrl = LIVE_URL_MAP[name] || repo.homepage || null;
     var lang = repo.language;
@@ -132,7 +145,10 @@
       '</div>' +
       '<div class="p-5">' +
         '<h3 class="text-lg font-semibold text-white mb-2">' + displayName + '</h3>' +
-        '<p class="text-gray-400 text-sm mb-4 line-clamp-3">' + desc + '</p>' +
+        '<div class="project-desc-wrap mb-4">' +
+          '<p class="project-desc-text project-desc-collapsed text-gray-400 text-sm">' + escapeHtml(desc) + '</p>' +
+          '<button type="button" class="project-desc-toggle text-sm font-medium text-indigo-400 hover:text-indigo-300 mt-1" aria-expanded="false">Read more</button>' +
+        '</div>' +
         '<div class="flex flex-wrap gap-2 mb-4">' + techBadges + '</div>' +
         '<div class="flex gap-3">' +
           (homeUrl ? '<a href="' + homeUrl + '" target="_blank" rel="noopener" class="text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline">Live</a>' : '') +
@@ -153,6 +169,22 @@
       var ordered = sortRepos(filtered);
       ordered.forEach(function (repo) {
         grid.appendChild(renderProject(repo));
+      });
+      grid.addEventListener('click', function (e) {
+        if (!e.target.classList.contains('project-desc-toggle')) return;
+        var wrap = e.target.closest('.project-desc-wrap');
+        if (!wrap) return;
+        var textEl = wrap.querySelector('.project-desc-text');
+        var btn = e.target;
+        if (textEl.classList.contains('project-desc-collapsed')) {
+          textEl.classList.remove('project-desc-collapsed');
+          btn.textContent = 'Read less';
+          btn.setAttribute('aria-expanded', 'true');
+        } else {
+          textEl.classList.add('project-desc-collapsed');
+          btn.textContent = 'Read more';
+          btn.setAttribute('aria-expanded', 'false');
+        }
       });
       document.dispatchEvent(new CustomEvent('projects-rendered'));
     })

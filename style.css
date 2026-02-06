@@ -39,6 +39,28 @@ img {
   overflow-wrap: break-word;
 }
 
+/* Project description: 2 lines + Read more */
+.project-desc-wrap {
+  min-height: 0;
+}
+.project-desc-text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.project-desc-text.project-desc-collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.project-desc-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
 /* Project card thumbnail: fixed aspect ratio, logos fit inside — dark mode */
 .project-thumb-wrap {
   aspect-ratio: 16 / 10;
