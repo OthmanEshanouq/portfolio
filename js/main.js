@@ -27,6 +27,20 @@
     });
   });
 
+  // ---------- Contact email: trigger mail client in same window (avoids about:blank new tab) ----------
+  (function () {
+    var emailLinks = document.querySelectorAll('a.contact-email-link[href^="mailto:"]');
+    emailLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var href = link.getAttribute('href');
+        if (!href) return;
+        e.preventDefault();
+        // Same-window navigation to mailto: opens the default mail app; no new tab / about:blank
+        window.location.href = href;
+      });
+    });
+  })();
+
   // ---------- Smooth scroll for anchor links (fallback for older browsers) ----------
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
@@ -71,7 +85,8 @@
   // Override description per repo (portfolio-friendly copy)
   var DESCRIPTION_OVERRIDE = {
     'restaurant-system': 'Restaurant management system with home page, menu, cart, and checkout. Checkout form submits order data to Google Sheets.',
-    'halawah_restaurant': 'Reservation system for a limited period (20/01/2026–20/02/2026). Open Thu, Fri & Sat for lunch and dinner.'
+    'halawah_restaurant': 'Reservation system for a limited period (20/01/2026–20/02/2026). Open Thu, Fri & Sat for lunch and dinner.',
+    'Premium_N-Tech_Fabric': 'Single-product website built with semantic and readable HTML, focusing on clean structure and accessibility. Designed for clarity, maintainability, and SEO-friendly content presentation.'
   };
 
   var grid = document.getElementById('projects-grid');
@@ -151,7 +166,7 @@
         '</div>' +
         '<div class="flex flex-wrap gap-2 mb-4">' + techBadges + '</div>' +
         '<div class="flex gap-3">' +
-          (homeUrl ? '<a href="' + homeUrl + '" target="_blank" rel="noopener" class="text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline">Live</a>' : '') +
+          (homeUrl ? '<a href="' + homeUrl + '" target="_blank" rel="noopener" class="text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline">View Website</a>' : '') +
         '</div>' +
       '</div>';
     return card;
