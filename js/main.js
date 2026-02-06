@@ -82,6 +82,9 @@
     'Event_Funnel': 'cycling everywhere'
   };
 
+  // Projects shown as "Under process" (work in progress)
+  var UNDER_PROCESS = ['Event_Funnel'];
+
   // Override description per repo (portfolio-friendly copy)
   var DESCRIPTION_OVERRIDE = {
     'restaurant-system': 'Restaurant management system with home page, menu, cart, and checkout. Checkout form submits order data to Google Sheets.',
@@ -143,6 +146,7 @@
     var isLogoThumb = name === 'Event_Funnel';
     var thumbWrapClass = 'project-thumb-wrap' + (isLogoThumb ? ' project-thumb-wrap-logo' : '');
     var thumbImgClass = 'project-thumb-img' + (isLogoThumb ? ' project-thumb-img-logo' : '');
+    var isUnderProcess = UNDER_PROCESS.indexOf(name) !== -1;
 
     var techBadges = [lang].filter(Boolean).concat(topics.slice(0, 3)).map(function (t) {
       return '<span class="px-2 py-1 text-xs font-medium rounded bg-gray-700 text-gray-300">' + langToLabel(t) + '</span>';
@@ -159,7 +163,10 @@
         '</a>' +
       '</div>' +
       '<div class="p-5">' +
-        '<h3 class="text-lg font-semibold text-white mb-2">' + displayName + '</h3>' +
+        '<div class="flex flex-wrap items-center gap-2 mb-2">' +
+          '<h3 class="text-lg font-semibold text-white">' + displayName + '</h3>' +
+          (isUnderProcess ? '<span class="project-badge-under-process px-2 py-0.5 text-xs font-medium rounded bg-amber-900/60 text-amber-200 border border-amber-700/50">Under process</span>' : '') +
+        '</div>' +
         '<div class="project-desc-wrap mb-4">' +
           '<p class="project-desc-text project-desc-collapsed text-gray-400 text-sm">' + escapeHtml(desc) + '</p>' +
           '<button type="button" class="project-desc-toggle text-sm font-medium text-indigo-400 hover:text-indigo-300 mt-1" aria-expanded="false">Read more</button>' +
